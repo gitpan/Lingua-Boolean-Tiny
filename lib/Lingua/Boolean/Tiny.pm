@@ -11,9 +11,10 @@ no warnings qw( void once uninitialized );
 	our @ISA = 'Exporter';
 	
 	our $AUTHORITY = 'cpan:TOBYINK';
-	our $VERSION   = '0.001';
+	our $VERSION   = '0.002';
 	our @EXPORT    = qw( boolean );
 	our (%LANG, @LANG);
+	our @BASELANG  = qw( zh en es hi ru ar pt bn fr ms de ja );
 	
 	sub new
 	{
@@ -29,8 +30,9 @@ no warnings qw( void once uninitialized );
 		shift;
 		my ($lang) = @_;
 		return "Lingua::Boolean::Tiny::Union"->new(@$lang) if ref($lang);
-		return "Lingua::Boolean::Tiny::Union"->new(@LANG) if !defined $lang;
-		my $class = $LANG{ lc $lang };
+		return "Lingua::Boolean::Tiny::Union"->new(@BASELANG) if !defined $lang;
+		my $class = $LANG{ lc $lang }
+			|| do { require Lingua::Boolean::Tiny::More; $LANG{ lc $lang } };
 		return $class->new if $class;
 		return;
 	}
@@ -57,7 +59,7 @@ no warnings qw( void once uninitialized );
 	package Lingua::Boolean::Tiny::BASE;
 	
 	our $AUTHORITY = 'cpan:TOBYINK';
-	our $VERSION   = '0.001';
+	our $VERSION   = '0.002';
 	
 	# Versions of ~~ and fc for legacy Perls...
 	use if $] >= 5.016, feature => 'fc';
@@ -102,8 +104,6 @@ no warnings qw( void once uninitialized );
 		return 0 if fc $text eq fc $self->no;
 		return 1 if match($text, $self->yes_expr);
 		return 0 if match($text, $self->no_expr);
-		return 1 if fc $text eq fc 'y';
-		return 0 if fc $text eq fc 'n';
 		return 1 if $text eq 1;
 		return 0 if $text eq 0;
 		return undef;
@@ -149,7 +149,7 @@ no warnings qw( void once uninitialized );
 	package Lingua::Boolean::Tiny::Union;
 	
 	our $AUTHORITY = 'cpan:TOBYINK';
-	our $VERSION   = '0.001';
+	our $VERSION   = '0.002';
 	
 	sub new
 	{
@@ -188,9 +188,9 @@ no warnings qw( void once uninitialized );
 "Lingua::Boolean::Tiny::BASE"->make_classes(
 	[
 		Chinese => [qw( zh zho chi )],
-		q/是。/ => q/不是。/,
-		[qw( 是。 對。 是。 对。 ), qr{^[ds]h[ìi]$}i ],
-		[qw( 不是。 不對。 不是。 不对。 ), qr{^b[úu]\s*[ds]h[ìi]$}i ],
+		q/是/ => q/不是/,
+		[qr{^[yY是]}, qw( 是 對 是 对 ), qr{^[ds]h[ìi]$}i],
+		[qr{^[nN不否]}, qw( 不是 不對 不是 不对 ), qr{^b[úu]\s*[ds]h[ìi]$}i],
 	],
 	[
 		English => [qw( en eng )],
@@ -201,58 +201,62 @@ no warnings qw( void once uninitialized );
 	[
 		Spanish => [qw( es spa )],
 		qw( sí no ),
-		qr{^s[íi]$}i,
-		qr{^no$}i,
+		qr{^[sSyY]},
+		qr{^[nN]$},
 	],
 	[
 		Hindi => [qw( hi hin )],
 		q/हाँ/ => q/नहीं/,
-		[ "हाँ", qr{^h[aā]̃$}i, "जी", qr{^j[īi]$}i, "जी हाँ", qr{^j[īi]\s*h[aā]̃$}i, qr{^ji\s*ha$}i ],
-		[ "नहीं", qr{^nahī̃$}i, "जी नहीं", qr{^jī nahī̃$}i, qr{^ji\s*nahi$}i ],
+		["हाँ", qr{^h[aā]̃$}i, "जी", qr{^j[īi]$}i, "जी हाँ", qr{^j[īi]\s*h[aā]̃$}i, qr{^ji\s*ha$}i, qr{^[yY]}],
+		["नहीं", qr{^nahī̃$}i, "जी नहीं", qr{^jī nahī̃$}i, qr{^ji\s*nahi$}i, qr{^[nN]}],
 	],
 	[
 		Russian => [qw( ru rus )],
 		qw( да нет ),
-		[ qr{^да$}i, qr{^da$}i ],
-		[ qr{^нет$}i, qr{^n[iy]?et$}i ],
+		[qr{^[ДдYy]}, qr{^да$}i, qr{^da$}i],
+		[qr{^[НнNn]}, qr{^нет$}i, qr{^n[iy]?et$}i],
 	],
 	[
 		Arabic => [qw( ar ara )],
 		q/نعم/ => q/ﻻ/,
+		qr{^[نyY].*},
+		qr{^[لnN].*},
 	],
 	[
 		Portuguese  => [qw( pt por )],
 		qw( sim não ),
-		[qr{^sim$}i],
-		[qr{^n[aã]o$}i],
+		[qr{^[SsyY].*}, qr{^sim$}i],
+		[qr{^[nN].*}, qr{^n[aã]o$}i],
 	],
 	[
 		Bengali => [qw( bn ben )],
-		q/জি/ => q/না/,
-		[q/জি/, q/হ্যাঁ/, qr{^ji$}i, qr{^h[eê][nñ]$}i],
-		[q/না/, qr{^n[aā]$}i],
+		q/হ্যাঁ/ => q/না/,
+		[qr{^[হ্যাঁyY]}, q/জি/, q/হ্যাঁ/, qr{^ji$}i, qr{^h[eê][nñ]$}i],
+		[qr{^[নাnN]}, q/না/, qr{^n[aā]$}i],
 	],
 	[
 		French => [qw( fr fre fra )],
 		qw( oui non ),
-		[qr{^oui$}i, qr{^ok$}i, qr{^vraie?$}i],
-		[qr{^n(?:on?)?$}i, qr{^faux$}i],
+		[qr{^[oOjJyYsS1].*}, qr{^oui$}i, qr{^ok$}i, qr{^vraie?$}i],
+		[qr{^[nN0].*}, qr{^n(?:on?)?$}i, qr{^faux$}i],
 	],
 	[
 		Malay => [qw( ms may msa )],
 		qw( ya tidak ),
-		[qr{^ya$}i, qr{^ha'?ah$}i],
-		[qr{^tidak$}i, qr{^tak$}i],
+		[qr{^[Yy]}, qr{^ya$}i, qr{^ha'?ah$}i],
+		[qr{^[Tt]}, qr{^tidak$}i, qr{^tak$}i],
 	],
 	[
 		German => [qw( de deu ger )],
 		qw( ja nein ),
+		[qr{^[jJyY].*}, qr{^ja?$}i],
+		[qr{^[nN].*}, qr{^n(?:ein)?$}i, qr{^y}i],
 	],
 	[
 		Japanese => [qw( ja jpn )],
 		q/はい/ => q/いいえ/,
-		[q/はい/, q/ええ/, q/うん/, qr{^hai$}i, qr{^[eē]$}i, qr{^un$}i, qr{^n̄$}i],
-		[q/いいえ/, q/いえ/, q/ううん/, q/違う/, qr{^[íi]?ie$}i, qr{^uun$}i, qr{^[n̄n]n$}i, qr{^chigau$}i],
+		[qr{^([yYｙＹ]|はい|ハイ)}, q/はい/, q/ええ/, q/うん/, qr{^hai$}i, qr{^[eē]$}i, qr{^un$}i, qr{^n̄$}i],
+		[qr{^([nNｎＮ]|いいえ|イイエ)}, q/いいえ/, q/いえ/, q/ううん/, q/違う/, qr{^[íi]?ie$}i, qr{^uun$}i, qr{^[n̄n]n$}i, qr{^chigau$}i],
 	],
 );
 
@@ -281,13 +285,17 @@ Lingua::Boolean::Tiny - a smaller Lingua::Boolean, with support for more languag
 =head1 DESCRIPTION
 
 This module provides an API roughly compatible with L<Lingua::Boolean> but
-has no non-core dependencies, supports Perl 5.6.2+ (though Perl versions
-earlier than 5.8 have pretty crummy Unicode support), includes the world's
-twelve most commonly spoken languages (Standard Chinese, English, Castillian
-Spanish, Hindi, Russian, Arabic, Portuguese, Bengali, French, Malay, German
-and Japanese), and adding support for other languages is easy peasy.
+has no non-core dependencies, and supports Perl 5.6.2+ (though Perl versions
+earlier than 5.8 have pretty crummy Unicode support).
 
-The strings "Y" and "1" are always true, and "N" and "0" are always false.
+L<Lingua::Boolean::Tiny> includes hand-written support for the world's twelve
+most commonly spoken languages (Standard Chinese, English, Castillian Spanish,
+Hindi, Russian, Arabic, Portuguese, Bengali, French, Malay, German and
+Japanese). L<Lingua::Boolean::Tiny::More> (which is auto loaded on demand)
+provides support for almost any other language you can think of, but it may
+not be to the same standard.
+
+The string "1" is always true, and "0" is always false.
 
 =head2 Object-Oriented Interface
 
@@ -388,20 +396,6 @@ This function is not exported.
 
 =back
 
-=head2 Adding languages
-
-Here's how you'd add support for Italian:
-
-   "Lingua::Boolean::Tiny::BASE"->make_classes([
-      Italian => [qw( it ita )],     # Language name and ISO codes
-      "sì",                          # Canonical "yes"
-      "no",                          # Canonical "no"
-      [ qr{^s[ìi]$}i ],              # Other things that match "yes"
-      [ qr{^no$}i ],                 # Other things that match "no"
-   ]);
-
-Easy peasy!
-
 =head1 BUGS
 
 Please report any bugs to
@@ -414,6 +408,12 @@ L<Lingua::Boolean>, L<String::BooleanSimple>, L<I18N::Langinfo>.
 =head1 AUTHOR
 
 Toby Inkster E<lt>tobyink@cpan.orgE<gt>.
+
+=head1 CREDITS
+
+A thousand thanks to Lars Dɪᴇᴄᴋᴏᴡ 迪拉斯 (cpan:DAXIM) for helping me with
+L<Lingua::Boolean::Tiny::More> and improving some of the translations
+in the main module.
 
 =head1 COPYRIGHT AND LICENCE
 
