@@ -49,8 +49,8 @@ DESCRIPTION
         ambiguities, the earlier language wins.
 
     "Lingua::Boolean::Tiny->new()"
-        Construct a new object supporting the union of all supported
-        languages.
+        Construct a new object supporting the union of the twelve main
+        supported languages.
 
     "Lingua::Boolean::Tiny->new_strict($lang)"
         Like "new", but rather than defaulting to English, returns undef.
