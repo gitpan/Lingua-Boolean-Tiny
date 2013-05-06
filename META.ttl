@@ -1,0 +1,147 @@
+@prefix cpan:  <http://purl.org/NET/cpan-uri/person/> .
+@prefix cpant: <http://purl.org/NET/cpan-uri/terms#> .
+@prefix dc:    <http://purl.org/dc/terms/> .
+@prefix dcs:   <http://ontologi.es/doap-changeset#> .
+@prefix dist:  <http://purl.org/NET/cpan-uri/dist/Lingua-Boolean-Tiny/> .
+@prefix doap:  <http://usefulinc.com/ns/doap#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix nfo:   <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+dist:project
+	a                 doap:Project;
+	doap:name         "Lingua-Boolean-Tiny";
+	cpant:perl_version_from [
+		a nfo:FileDataObject;
+		a nfo:SourceCode;
+		rdfs:label "Lingua::Boolean::Tiny";
+		nfo:fileName "lib/Lingua/Boolean/Tiny.pm";
+		nfo:programmingLanguage "Perl";
+	];
+	cpant:readme_from [
+		a nfo:FileDataObject;
+		a nfo:SourceCode;
+		rdfs:label "Lingua::Boolean::Tiny";
+		nfo:fileName "lib/Lingua/Boolean/Tiny.pm";
+		nfo:programmingLanguage "Perl";
+	];
+	cpant:version_from [
+		a nfo:FileDataObject;
+		a nfo:SourceCode;
+		rdfs:label "Lingua::Boolean::Tiny";
+		nfo:fileName "lib/Lingua/Boolean/Tiny.pm";
+		nfo:programmingLanguage "Perl";
+	];
+	dc:contributor    cpan:tobyink;
+	doap:bug-database <http://rt.cpan.org/Dist/Display.html?Queue=Lingua-Boolean-Tiny>;
+	doap:created      "2013-03-04"^^xsd:date;
+	doap:developer    cpan:tobyink;
+	doap:download-page <https://metacpan.org/release/Lingua-Boolean-Tiny>;
+	doap:homepage     <https://metacpan.org/release/Lingua-Boolean-Tiny>;
+	doap:license      <http://dev.perl.org/licenses/>;
+	doap:maintainer   cpan:tobyink;
+	doap:programming-language "Perl";
+	doap:release      dist:v_0-001;
+	doap:release      dist:v_0-002;
+	doap:release      dist:v_0-003;
+	doap:release      dist:v_0-004;
+	doap:release      dist:v_0-005;
+	doap:repository   [
+		a doap:HgRepository;
+		doap:browse <https://bitbucket.org/tobyink/p5-lingua-boolean-tiny>;
+	];
+	doap:shortdesc    "a smaller Lingua::Boolean, with support for more languages".
+
+dist:v_0-001
+	a                 doap:Version;
+	rdfs:label        "Initial release";
+	dc:identifier     "Lingua-Boolean-Tiny-0.001"^^xsd:string;
+	dc:issued         "2013-03-05"^^xsd:date;
+	dcs:released-by   cpan:tobyink;
+	doap:file-release <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/Lingua-Boolean-Tiny-0.001.tar.gz>;
+	doap:revision     "0.001"^^xsd:string.
+
+dist:v_0-002
+	a                 doap:Version;
+	dc:identifier     "Lingua-Boolean-Tiny-0.002"^^xsd:string;
+	dc:issued         "2013-03-09"^^xsd:date;
+	dcs:changeset     [
+		dcs:item [
+			a dcs:Addition;
+			rdfs:label "Lingua::Boolean::Tiny::More adds support for 150 more languages.";
+			dcs:thanks cpan:daxim;
+		];
+		dcs:item [
+			rdfs:label "Improved translations.";
+			dcs:thanks cpan:daxim;
+		];
+	];
+	dcs:released-by   cpan:tobyink;
+	doap:file-release <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/Lingua-Boolean-Tiny-0.002.tar.gz>;
+	doap:revision     "0.002"^^xsd:string.
+
+dist:v_0-003
+	a                 doap:Version;
+	dc:identifier     "Lingua-Boolean-Tiny-0.003"^^xsd:string;
+	dc:issued         "2013-03-09"^^xsd:date;
+	dcs:changeset     [
+		dcs:item [
+			a dcs:Bugfix;
+			rdfs:label "Lingua::Boolean::Tiny::Union now autoloads More.pm if necessary.";
+		];
+	];
+	dcs:released-by   cpan:tobyink;
+	doap:file-release <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/Lingua-Boolean-Tiny-0.003.tar.gz>;
+	doap:revision     "0.003"^^xsd:string.
+
+dist:v_0-004
+	a                 doap:Version;
+	dc:identifier     "Lingua-Boolean-Tiny-0.004"^^xsd:string;
+	dc:issued         "2013-03-12"^^xsd:date;
+	dcs:changeset     [
+		dcs:item [
+			a dcs:Bugfix;
+			rdfs:label "Force Perl 5.10.0 down the legacy code path (manual 'smart match' implementation) as $scalar~~@array behaviour was changed in 5.10.1.";
+		];
+	];
+	dcs:released-by   cpan:tobyink;
+	doap:file-release <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/Lingua-Boolean-Tiny-0.004.tar.gz>;
+	doap:revision     "0.004"^^xsd:string.
+
+dist:v_0-005
+	a                 doap:Version;
+	dc:identifier     "Lingua-Boolean-Tiny-0.005"^^xsd:string;
+	dc:issued         "2013-05-06"^^xsd:date;
+	dcs:changeset     [
+		dcs:item [
+			a dcs:Addition;
+			rdfs:label "yesno method";
+			dcs:blame cpan:djerius;
+		];
+	];
+	dcs:released-by   cpan:tobyink;
+	doap:file-release <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/Lingua-Boolean-Tiny-0.005.tar.gz>;
+	doap:revision     "0.005"^^xsd:string.
+
+cpan:daxim
+	a                 foaf:Person;
+	foaf:nick         "DAXIM";
+	foaf:page         <https://metacpan.org/author/DAXIM>.
+
+cpan:djerius
+	a                 foaf:Person;
+	foaf:name         "Diab Jerius";
+	foaf:nick         "DJERIUS";
+	foaf:page         <https://metacpan.org/author/DJERIUS>.
+
+cpan:tobyink
+	a                 foaf:Person;
+	foaf:name         "Toby Inkster";
+	foaf:mbox         <mailto:tobyink@cpan.org>;
+	foaf:nick         "TOBYINK";
+	foaf:page         <https://metacpan.org/author/TOBYINK>.
+
+<http://dev.perl.org/licenses/>
+	dc:title          "the same terms as the perl 5 programming language system itself".
+

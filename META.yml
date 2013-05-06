@@ -28,4 +28,6 @@ resources:
   homepage: https://metacpan.org/release/Lingua-Boolean-Tiny
   license: http://dev.perl.org/licenses/
   repository: https://bitbucket.org/tobyink/p5-lingua-boolean-tiny
-version: 0.004
+version: 0.005
+x_contributors:
+  - 'Diab Jerius <djerius@cpan.org>'

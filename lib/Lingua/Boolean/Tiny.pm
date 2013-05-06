@@ -11,7 +11,7 @@ no warnings qw( void once uninitialized );
 	our @ISA = 'Exporter';
 	
 	our $AUTHORITY = 'cpan:TOBYINK';
-	our $VERSION   = '0.004';
+	our $VERSION   = '0.005';
 	our @EXPORT    = qw( boolean );
 	our (%LANG, @LANG);
 	our @BASELANG  = qw( zh en es hi ru ar pt bn fr ms de ja );
@@ -59,7 +59,7 @@ no warnings qw( void once uninitialized );
 	package Lingua::Boolean::Tiny::BASE;
 	
 	our $AUTHORITY = 'cpan:TOBYINK';
-	our $VERSION   = '0.004';
+	our $VERSION   = '0.005';
 	
 	# Versions of ~~ and fc for legacy Perls...
 	use if $] >= 5.016, feature => 'fc';
@@ -129,6 +129,7 @@ no warnings qw( void once uninitialized );
 				sub new       { my \$k = shift; bless qr{$lang}, \$k };
 				sub yes       { \$yes };
 				sub no        { \$no };
+				sub yesno     { \$_[1] ? \$_[0]->yes : \$_[0]->no };
 				sub yes_expr  { \$yes_expr };
 				sub no_expr   { \$no_expr };
 				sub languages { \$lang };
@@ -149,7 +150,7 @@ no warnings qw( void once uninitialized );
 	package Lingua::Boolean::Tiny::Union;
 	
 	our $AUTHORITY = 'cpan:TOBYINK';
-	our $VERSION   = '0.004';
+	our $VERSION   = '0.005';
 	
 	sub new
 	{
@@ -360,6 +361,12 @@ in objects which support a single language, not a union.
 
 Returns a canonical "no" string for the language. This method only exists
 in objects which support a single language, not a union.
+
+=item C<< yesno($boolean) >>
+
+Returns a canonical "yes" or "no" string for the language, depending
+upon whether C<$boolean> is true or false.  This method only exists in
+objects which support a single language, not a union.
 
 =back
 
