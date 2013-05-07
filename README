@@ -86,6 +86,8 @@ DESCRIPTION
         upon whether $boolean is true or false. This method only exists in
         objects which support a single language, not a union.
 
+        This method is effectively the inverse of the "boolean" method.
+
   Functional Interface
     This module provides several functions:
 

@@ -47,6 +47,7 @@ dist:project
 	doap:release      dist:v_0-003;
 	doap:release      dist:v_0-004;
 	doap:release      dist:v_0-005;
+	doap:release      dist:v_0-006;
 	doap:repository   [
 		a doap:HgRepository;
 		doap:browse <https://bitbucket.org/tobyink/p5-lingua-boolean-tiny>;
@@ -124,8 +125,23 @@ dist:v_0-005
 	doap:file-release <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/Lingua-Boolean-Tiny-0.005.tar.gz>;
 	doap:revision     "0.005"^^xsd:string.
 
+dist:v_0-006
+	a                 doap:Version;
+	dc:identifier     "Lingua-Boolean-Tiny-0.006"^^xsd:string;
+	dc:issued         "2013-05-07"^^xsd:date;
+	dcs:changeset     [
+		dcs:item [
+			a dcs:Change;
+			rdfs:label "Bikeshedding - isn't yesno a lovely colour now?";
+		];
+	];
+	dcs:released-by   cpan:tobyink;
+	doap:file-release <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/Lingua-Boolean-Tiny-0.006.tar.gz>;
+	doap:revision     "0.006"^^xsd:string.
+
 cpan:daxim
 	a                 foaf:Person;
+	foaf:name         "Lars D\u026A\u1D07\u1D04\u1D0B\u1D0F\u1D21 \u8FEA\u62C9\u65AF";
 	foaf:nick         "DAXIM";
 	foaf:page         <https://metacpan.org/author/DAXIM>.
 
