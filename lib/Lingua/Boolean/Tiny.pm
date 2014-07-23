@@ -11,7 +11,7 @@ no warnings qw( void once uninitialized );
 	our @ISA = 'Exporter';
 	
 	our $AUTHORITY = 'cpan:TOBYINK';
-	our $VERSION   = '0.006';
+	our $VERSION   = '0.007';
 	our @EXPORT    = qw( boolean );
 	our (%LANG, @LANG);
 	our @BASELANG  = qw( zh en es hi ru ar pt bn fr ms de ja );
@@ -59,7 +59,7 @@ no warnings qw( void once uninitialized );
 	package Lingua::Boolean::Tiny::BASE;
 	
 	our $AUTHORITY = 'cpan:TOBYINK';
-	our $VERSION   = '0.006';
+	our $VERSION   = '0.007';
 	
 	# Versions of ~~ and fc for legacy Perls...
 	use if $] >= 5.016, feature => 'fc';
@@ -67,12 +67,14 @@ no warnings qw( void once uninitialized );
 	
 	eval q
 	{
+		use match::simple qw(match);
+		1;
+	}
+	or eval q
+	{
 		use v5.10.1;
-		sub match
-		{
-			my ($a, $b) = @_;
-			$a ~~ $b;
-		}
+		no warnings;
+		sub match { $_[0] ~~ $_[1] };
 		1;
 	}
 	or eval q
@@ -154,7 +156,7 @@ no warnings qw( void once uninitialized );
 	package Lingua::Boolean::Tiny::Union;
 	
 	our $AUTHORITY = 'cpan:TOBYINK';
-	our $VERSION   = '0.006';
+	our $VERSION   = '0.007';
 	
 	sub new
 	{
